@@ -18,17 +18,28 @@ class AbsenController extends Controller
     }
 
     // Menyimpan data absensi
+    // Menyimpan data absensi
     public function store(Request $request)
     {
-        // dd($request->all());
         // Validasi request
         $request->validate([
+            'tanggal' => 'required|date',
             'jurusan_id' => 'required',
             'kelas_id' => 'required',
-            'tanggal' => 'required|date',
-            'status_absen' => 'required|array',
             'status_absen.*' => 'required|in:hadir,sakit,izin,alfa'
         ]);
+
+        // Periksa apakah sudah ada absensi untuk siswa pada tanggal yang sama
+        foreach ($request->status_absen as $siswaId => $status) {
+            $existingAbsensi = Absensi::where('siswa_id', $siswaId)
+                ->where('tanggal', $request->tanggal)
+                ->exists();
+
+            // Jika sudah ada, kembalikan respon dengan pesan error
+            if ($existingAbsensi) {
+                return redirect()->back()->with('error', 'Absensi untuk siswa pada tanggal yang sama sudah ada.');
+            }
+        }
 
         // Proses menyimpan data absensi untuk setiap siswa
         foreach ($request->status_absen as $siswaId => $status) {
