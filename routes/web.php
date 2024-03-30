@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\KelasController;
+use App\Http\Controllers\Admin\RekapController;
 use App\Http\Controllers\Admin\SiswaController;
 /*
 |--------------------------------------------------------------------------
@@ -58,6 +59,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
     Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
     Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+    //rekap
+    Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');
 
 });
 

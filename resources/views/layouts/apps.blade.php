@@ -79,6 +79,14 @@
                 <span class="hide-menu">Data Siswa</span>
               </a>
             </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{{url('/admin/rekap')}}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-article"></i>
+                </span>
+                <span class="hide-menu">Data KEhadiran</span>
+              </a>
+            </li>
             @endrole
           
           <div class="unlimited-access hide-menu bg-light-primary position-relative mb-7 mt-5 rounded">

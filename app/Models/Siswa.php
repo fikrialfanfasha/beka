@@ -17,7 +17,7 @@ class Siswa extends Model
         return $this->belongsTo(Kelas::class);
     }
 
-    public function absens()
+    public function absensi()
     {
         return $this->hasMany(Absensi::class);
     }

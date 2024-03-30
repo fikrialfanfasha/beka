@@ -14,7 +14,7 @@ class AbsenController extends Controller
     {
         $jurusan = Jurusan::all();
         // dd($jurusan);
-        return view('absen', compact('jurusan'));
+        return view('siswa.absen', compact('jurusan'));
     }
 
     // Menyimpan data absensi

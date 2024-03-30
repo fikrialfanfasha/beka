@@ -1,7 +1,22 @@
 @extends('layouts.apps')
+
 @section('content')
 <div class="container mt-5">
     <h1 class="mb-4">Data Kelas</h1>
+    <form action="{{ route('kelas.index') }}" method="GET" class="mb-4">
+        <div class="form-group">
+            <label for="jurusan">Pilih Jurusan:</label>
+            <select name="jurusan" id="jurusan" class="form-control">
+                <option value="">Semua Jurusan</option>
+                @foreach ($jurusan as $j)
+                    <option value="{{ $j->id }}" {{ request()->input('jurusan') == $j->id ? 'selected' : '' }}>
+                        {{ $j->nama }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
     <a href="{{ route('kelas.create') }}" class="btn btn-primary mb-4">Tambah Kelas</a>
     <table class="table table-bordered">
         <thead>
@@ -34,5 +49,5 @@
             @endforelse
         </tbody>
     </table>
-
+</div>
 @endsection

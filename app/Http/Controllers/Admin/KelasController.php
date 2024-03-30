@@ -11,10 +11,22 @@ class KelasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $kelas = Kelas::all();
-        return view('admin.kelas.kelas_index', compact('kelas'));
+        $query = Kelas::query();
+    
+        // Filter berdasarkan jurusan jika dipilih
+        if ($request->has('jurusan')) {
+            $query->whereHas('jurusan', function ($query) use ($request) {
+                $query->where('id', $request->input('jurusan'));
+            });
+        }
+    
+        // Ambil semua kelas dan urutkan berdasarkan nama jurusan
+        $kelas = $query->with('jurusan')->orderBy('jurusan_id')->get();
+        $jurusan = Jurusan::all();
+    
+        return view('admin.kelas.kelas_index', compact('kelas', 'jurusan'));
     }
 
     /**
