@@ -13,6 +13,7 @@ class AbsenController extends Controller
     public function create()
     {
         $jurusan = Jurusan::all();
+        // dd($jurusan);
         return view('absen', compact('jurusan'));
     }
 
