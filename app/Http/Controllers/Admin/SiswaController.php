@@ -17,7 +17,7 @@ class SiswaController extends Controller
     public function index(Request $request)
     {
         $siswa = Siswa::query();
-    
+        
         // periksa apakah ada parameter kelas dalam URL
         if ($request->has('kelas')) {
             // kalo ada, ambil ID kelas berdasarkan nama kelas yang dipilih
@@ -31,8 +31,9 @@ class SiswaController extends Controller
         $kelas = Kelas::all();
     
         //ambil data siswa berdasarkan filter (jika ada)
-        $siswa = $siswa->get();
-    
+        $siswa = $siswa->paginate(15);
+        // $siswa = Siswa::paginate(15); // pagination per halaman (15)
+
         return view('admin.siswa.siswa_index', compact('siswa', 'kelas'));
     }
     

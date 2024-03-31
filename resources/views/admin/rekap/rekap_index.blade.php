@@ -62,4 +62,26 @@
         </div>
     @endif
 </div>
+<div class="pagination" style="text-align: center; margin-top: 20px;">
+    @if ($daftarSiswa->lastPage() > 1)
+        <ul style="display: inline-block; padding: 0; margin: 0;">
+            <li style="display: inline; margin-right: 5px;">
+                <a href="{{ $daftarSiswa->previousPageUrl() }}" class="{{ ($daftarSiswa->currentPage() == 1) ? 'disabled' : '' }}" style="color: #333; padding: 5px 10px; text-decoration: none; border: 1px solid #ccc; border-radius: 3px;">
+                    &laquo; Previous
+                </a>
+            </li>
+            @for ($i = 1; $i <= $daftarSiswa->lastPage(); $i++)
+                <li style="display: inline; margin-right: 5px;">
+                    <a href="{{ $daftarSiswa->url($i) }}" class="{{ ($daftarSiswa->currentPage() == $i) ? 'active' : '' }}" style="color: #333; padding: 5px 10px; text-decoration: none; border: 1px solid #ccc; border-radius: 3px;">{{ $i }}</a>
+                </li>
+            @endfor
+            <li style="display: inline; margin-right: 5px;">
+                <a href="{{ $daftarSiswa->nextPageUrl() }}" class="{{ ($daftarSiswa->currentPage() == $daftarSiswa->lastPage()) ? 'disabled' : '' }}" style="color: #333; padding: 5px 10px; text-decoration: none; border: 1px solid #ccc; border-radius: 3px;">
+                    Next &raquo;
+                </a>
+            </li>
+        </ul>
+    @endif
+</div>
+
 @endsection

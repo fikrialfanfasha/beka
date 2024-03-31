@@ -32,8 +32,8 @@ class RekapController extends Controller
         }
 
         //ambil data siswa berdasarkan filter (jika ada)
-        $daftarSiswa = $query->get();
-
+        $daftarSiswa = $query->paginate(15);
+        
         return view('admin.rekap.rekap_index', compact('kelas', 'daftarSiswa'));
     }
 
