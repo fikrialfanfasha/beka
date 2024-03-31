@@ -36,10 +36,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @php $no = 1; @endphp
                     @foreach ($daftarSiswa as $siswa)
                         <tr>
-                            <td>{{ $no++ }}</td>
+                            <td>{{ $siswa->nis}}</td>
                             <td>{{ $siswa->nama }}</td>
                             <td>{{ $siswa->kelas->nama }}</td>
                             <td>{{ $siswa->absensi->where('status', 'hadir')->count() }}</td>

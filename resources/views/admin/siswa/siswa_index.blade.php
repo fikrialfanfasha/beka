@@ -23,7 +23,7 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>No</th>
+                <th>NIS</th>
                 <th>Nama Siswa</th>
                 <th>Kelas</th>
                 <th>Jurusan</th>
@@ -33,13 +33,13 @@
         <tbody>
             @forelse ($siswa as $sw)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $sw->nis }}</td>
                     <td>{{ $sw->nama }}</td>
                     <td>{{ $sw->kelas->nama }}</td>
                     <td>{{ $sw->kelas->jurusan->nama }}</td>
                     <td>
-                        <a href="{{ route('siswa.edit', $sw->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('siswa.destroy', $sw->id) }}" method="POST" class="d-inline">
+                        <a href="{{ route('siswa.edit', $sw->nis) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('siswa.destroy', $sw->nis) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Hapus</button>

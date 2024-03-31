@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\Jurusan;
-
+use Illuminate\Support\Facades\Storage;
 class SiswaController extends Controller
 {
     /**
@@ -48,8 +48,31 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string',
+            'nis' => 'required|string|unique:siswa',
+            'kelas_id' => 'required|exists:kelas,id',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Pastikan hanya gambar yang diizinkan dengan maksimum 2MB
+        ]);
+
+        // Upload foto jika ada
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('siswa_photos');
+        }
+
+        // Buat siswa baru
+        $siswa = new Siswa();
+        $siswa->nama = $request->nama;
+        $siswa->nis = $request->nis;
+        $siswa->kelas_id = $request->kelas_id;
+        $siswa->foto = $fotoPath;
+        $siswa->save();
+
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil ditambahkan');
     }
+
 
     /**
      * Display the specified resource.
@@ -72,7 +95,38 @@ class SiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // Validasi input
+        $request->validate([
+            'nama' => 'required|string',
+            'nis' => 'required|string|unique:siswa,nis,' . $id, // Mengabaikan unikitas NIS untuk data dengan ID yang sama
+            'kelas_id' => 'required|exists:kelas,id',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Pastikan hanya gambar yang diizinkan dengan maksimum 2MB
+        ]);
+
+        // Upload foto jika ada
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('siswa_photos');
+        }
+
+        // Temukan siswa yang akan diupdate
+        $siswa = Siswa::findOrFail($id);
+        $siswa->nama = $request->nama;
+        $siswa->nis = $request->nis;
+        $siswa->kelas_id = $request->kelas_id;
+
+        // Update foto jika ada
+        if ($fotoPath) {
+            // Hapus foto lama jika ada
+            if ($siswa->foto) {
+                Storage::delete($siswa->foto);
+            }
+            $siswa->foto = $fotoPath;
+        }
+
+        $siswa->save();
+
+        return redirect()->route('siswa.index')->with('success', 'Siswa berhasil diperbarui');
     }
 
     /**

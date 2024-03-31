@@ -55,10 +55,10 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');
     Route::post('/siswa/store', [SiswaController::class, 'store'])->name('siswa.store');
-    Route::get('/siswa/{id}', [SiswaController::class, 'show'])->name('siswa.show');
-    Route::get('/siswa/{id}/edit', [SiswaController::class, 'edit'])->name('siswa.edit');
-    Route::put('/siswa/{id}', [SiswaController::class, 'update'])->name('siswa.update');
-    Route::delete('/siswa/{id}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
+    Route::get('/siswa/{nis}', [SiswaController::class, 'show'])->name('siswa.show');
+    Route::get('/siswa/edit/{nis}', [SiswaController::class, 'edit'])->name('siswa.edit');
+    Route::put('/siswa/{nis}', [SiswaController::class, 'update'])->name('siswa.update');
+    Route::delete('/siswa/{nis}', [SiswaController::class, 'destroy'])->name('siswa.destroy');
     //rekap
     Route::get('/rekap', [RekapController::class, 'index'])->name('rekap.index');
 

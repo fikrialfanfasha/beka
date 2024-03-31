@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('siswa', function (Blueprint $table) {
-            $table->id();
+            $table->string('nis')->primary(); // Tambah kolom NIS dan jadikan primary key
+            $table->string('foto')->nullable(); // Tambah kolom foto (opsional)
             $table->string('nama');
             $table->unsignedBigInteger('kelas_id');
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');

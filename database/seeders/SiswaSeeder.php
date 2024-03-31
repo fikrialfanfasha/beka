@@ -11,15 +11,23 @@ class SiswaSeeder extends Seeder
 {
     public function run()
     {
-        $faker = Faker::create('id_ID');
+        $fakerIndonesia = Faker::create('id_ID');
+        $fakerRussia = Faker::create('pl_PL');
+
         $kelasIds = Kelas::pluck('id')->toArray();
 
         for ($i = 0; $i < 120; $i++) {
-            $nama = $faker->firstName . ' ' . $faker->firstName . ' ' . $faker->lastName;
+            $firstNameIndonesia = $fakerIndonesia->firstName;
+            $lastName = $fakerRussia->lastName();
+
+            $nama = $firstNameIndonesia . ' ' . $lastName;
+
+            $nis = '101' . $fakerIndonesia->unique()->numerify('######');
 
             Siswa::create([
                 'nama' => $nama,
-                'kelas_id' => $faker->randomElement($kelasIds)
+                'nis' => $nis,
+                'kelas_id' => $fakerIndonesia->randomElement($kelasIds)
             ]);
         }
     }
