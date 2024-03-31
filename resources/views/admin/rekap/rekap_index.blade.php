@@ -11,7 +11,7 @@
             <select name="kelas" id="kelas" class="form-control">
                 <option value="">Semua Kelas</option>
                 @foreach ($kelas as $item)
-                    <option value="{{ $item->id }}" {{ request('kelas') == $item->id ? 'selected' : '' }}>
+                    <option value="{{ $item->nama }}" {{ request('kelas') == $item->nama ? 'selected' : '' }}>
                         {{ $item->nama }}
                     </option>
                 @endforeach
@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($daftarSiswa as $siswa)
+                    @forelse ($daftarSiswa as $siswa)
                         <tr>
                             <td>{{ $siswa->nis}}</td>
                             <td>{{ $siswa->nama }}</td>
@@ -52,7 +52,11 @@
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                    <tr>
+                        <td colspan="3">Tidak ada data rekap.</td>
+                    </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

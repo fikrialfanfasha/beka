@@ -16,17 +16,28 @@ class RekapController extends Controller
      */
     public function index(Request $request)
     {
-        // Ambil semua kelas
+        // ambil semua kelas
         $kelas = Kelas::all();
 
-        // Ambil siswa berdasarkan kelas yang dipilih (jika ada filter)
-        $daftarSiswa = [];
-        if ($request->has('kelas') && $request->kelas !== '') {
-            $daftarSiswa = Kelas::findOrFail($request->kelas)->siswa;
+        // query untuk mendapatkan daftar siswa
+        $query = Siswa::query();
+
+        // Periksa apakah ada parameter kelas dalam URL
+        if ($request->has('kelas')) {
+            //ambil ID kelas berdasarkan nama kelas yang dipilih
+            $kelasId = Kelas::where('nama', $request->kelas)->value('id');
+
+            //filter siswa berdasarkan ID kelas
+            $query->where('kelas_id', $kelasId);
         }
+
+        //ambil data siswa berdasarkan filter (jika ada)
+        $daftarSiswa = $query->get();
 
         return view('admin.rekap.rekap_index', compact('kelas', 'daftarSiswa'));
     }
+
+
 
     /**
      * Show the form for creating a new resource.
