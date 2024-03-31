@@ -9,7 +9,7 @@
             <select name="jurusan" id="jurusan" class="form-control">
                 <option value="">Semua Jurusan</option>
                 @foreach ($jurusan as $j)
-                    <option value="{{ $j->id }}" {{ request()->input('jurusan') == $j->id ? 'selected' : '' }}>
+                    <option value="{{ $j->nama }}" {{ request()->input('jurusan') == $j->nama ? 'selected' : '' }}>
                         {{ $j->nama }}
                     </option>
                 @endforeach
@@ -34,8 +34,8 @@
                     <td>{{ $kel->nama }}</td>
                     <td>{{ $kel->jurusan->nama }}</td>
                     <td>
-                        <a href="{{ route('kelas.edit', $kel->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('kelas.destroy', $kel->id) }}" method="POST" class="d-inline">
+                        <a href="{{ route('kelas.edit', $kel->nama) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('kelas.destroy', $kel->nama) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Hapus</button>

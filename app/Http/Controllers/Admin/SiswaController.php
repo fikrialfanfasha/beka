@@ -8,6 +8,7 @@ use App\Models\Siswa;
 use App\Models\Kelas;
 use App\Models\Jurusan;
 use Illuminate\Support\Facades\Storage;
+
 class SiswaController extends Controller
 {
     /**
@@ -16,23 +17,28 @@ class SiswaController extends Controller
     public function index(Request $request)
     {
         $siswa = Siswa::query();
-
-        // Memeriksa apakah ada parameter kelas dalam URL
+    
+        // periksa apakah ada parameter kelas dalam URL
         if ($request->has('kelas')) {
-            // Jika ada, filter berdasarkan kelas yang dipilih
-            $siswa->whereHas('kelas', function ($query) use ($request) {
-                $query->where('id', $request->input('kelas'));
-            });
+            // kalo ada, ambil ID kelas berdasarkan nama kelas yang dipilih
+            $kelasId = Kelas::where('nama', $request->input('kelas'))->value('id');
+    
+            //filter siswa berdasarkan ID kelas
+            $siswa->where('kelas_id', $kelasId);
         }
-
-        // Ambil semua kelas
+    
+        //ambil semua kelas
         $kelas = Kelas::all();
-
-        // Ambil siswa berdasarkan filter (jika ada)
+    
+        //ambil data siswa berdasarkan filter (jika ada)
         $siswa = $siswa->get();
-
+    
         return view('admin.siswa.siswa_index', compact('siswa', 'kelas'));
     }
+    
+
+
+
 
 
     /**
@@ -48,21 +54,21 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
+        //validasi input
         $request->validate([
             'nama' => 'required|string',
             'nis' => 'required|string|unique:siswa',
             'kelas_id' => 'required|exists:kelas,id',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Pastikan hanya gambar yang diizinkan dengan maksimum 2MB
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // hanya gambar yang diizinkan dengan maksimum 2MB
         ]);
 
-        // Upload foto jika ada
+        //upload foto jika ada
         $fotoPath = null;
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('siswa_photos');
         }
 
-        // Buat siswa baru
+        //buat data siswa baru
         $siswa = new Siswa();
         $siswa->nama = $request->nama;
         $siswa->nis = $request->nis;
@@ -95,29 +101,29 @@ class SiswaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // Validasi input
+        //validasi input
         $request->validate([
             'nama' => 'required|string',
-            'nis' => 'required|string|unique:siswa,nis,' . $id, // Mengabaikan unikitas NIS untuk data dengan ID yang sama
+            'nis' => 'required|string|unique:siswa,nis,' . $id, //NIS 
             'kelas_id' => 'required|exists:kelas,id',
-            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Pastikan hanya gambar yang diizinkan dengan maksimum 2MB
+            'foto' => 'image|mimes:jpeg,png,jpg,gif|max:2048', //hanya gambar yang diizinkan dengan maksimum 2MB
         ]);
 
-        // Upload foto jika ada
+        //up foto jika ada
         $fotoPath = null;
         if ($request->hasFile('foto')) {
             $fotoPath = $request->file('foto')->store('siswa_photos');
         }
 
-        // Temukan siswa yang akan diupdate
+        //find data siswa yang akan diupdate
         $siswa = Siswa::findOrFail($id);
         $siswa->nama = $request->nama;
         $siswa->nis = $request->nis;
         $siswa->kelas_id = $request->kelas_id;
 
-        // Update foto jika ada
+        //update foto jika ada
         if ($fotoPath) {
-            // Hapus foto lama jika ada
+            //hapus foto lama jika ada
             if ($siswa->foto) {
                 Storage::delete($siswa->foto);
             }

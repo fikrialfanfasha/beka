@@ -10,7 +10,7 @@
             <select name="kelas" id="kelas" class="form-control">
                 <option value="">Semua Kelas</option>
                 @foreach ($kelas as $kls)
-                    <option value="{{ $kls->id }}" {{ request()->input('kelas') == $kls->id ? 'selected' : '' }}>
+                    <option value="{{ $kls->nama }}" {{ request()->input('kelas') == $kls->nama ? 'selected' : '' }}>
                         {{ $kls->nama }}
                     </option>
                 @endforeach
@@ -35,8 +35,8 @@
                 <tr>
                     <td>{{ $sw->nis }}</td>
                     <td>{{ $sw->nama }}</td>
-                    <td>{{ $sw->kelas->nama }}</td>
-                    <td>{{ $sw->kelas->jurusan->nama }}</td>
+                    <td>{{ $sw->kelas['nama'] }}</td>
+                    <td>{{ $sw->kelas['jurusan']['nama'] }}</td>
                     <td>
                         <a href="{{ route('siswa.edit', $sw->nis) }}" class="btn btn-warning">Edit</a>
                         <form action="{{ route('siswa.destroy', $sw->nis) }}" method="POST" class="d-inline">

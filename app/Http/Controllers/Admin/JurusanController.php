@@ -32,50 +32,50 @@ class JurusanController extends Controller
     {
         $request->validate([
             'nama' => 'required',
-            
         ]);
+
         Jurusan::create($request->all());
-        return redirect()->route('index');
+        return redirect()->route('jurusan.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $nama)
     {
-        $jurusan = Jurusan::findOrFail($id);
+        $jurusan = Jurusan::where('nama', $nama)->firstOrFail();
         return view('admin.jurusan.jurusan_show', compact('jurusan'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $nama)
     {
-        $jurusan = Jurusan::findOrFail($id);
+        $jurusan = Jurusan::where('nama', $nama)->firstOrFail();
         return view('admin.jurusan.jurusan_edit', compact('jurusan'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $nama)
     {
         $request->validate([
             'nama' => 'required',
-            
         ]);
-        $jurusan = Jurusan::findOrFail($id);
+
+        $jurusan = Jurusan::where('nama', $nama)->firstOrFail();
         $jurusan->update($request->all());
-        return redirect()->route('index');
+        return redirect()->route('jurusan.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $nama)
     {
-        $jurusan = Jurusan::findOrFail($id);
+        $jurusan = Jurusan::where('nama', $nama)->firstOrFail();
         $jurusan->delete();
         return redirect()->route('jurusan.index');
     }

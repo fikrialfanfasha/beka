@@ -39,18 +39,18 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/jurusan', [JurusanController::class, 'index'])->name('jurusan.index');
     Route::get('/jurusan/create', [JurusanController::class, 'create'])->name('jurusan.create');
     Route::post('/jurusan/store', [JurusanController::class, 'store'])->name('jurusan.store');
-    Route::get('/jurusan/{id}', [JurusanController::class, 'show'])->name('jurusan.show');
-    Route::get('/jurusan/{id}/edit', [JurusanController::class, 'edit'])->name('jurusan.edit');
-    Route::put('/jurusan/{id}', [JurusanController::class, 'update'])->name('jurusan.update');
-    Route::delete('/jurusan/{id}', [JurusanController::class, 'destroy'])->name('jurusan.destroy');
+    Route::get('/jurusan/{nama}', [JurusanController::class, 'show'])->name('jurusan.show');
+    Route::get('/jurusan/{nama}/edit', [JurusanController::class, 'edit'])->name('jurusan.edit');
+    Route::put('/jurusan/{nama}', [JurusanController::class, 'update'])->name('jurusan.update');
+    Route::delete('/jurusan/{nama}', [JurusanController::class, 'destroy'])->name('jurusan.destroy');
     //kelas
     Route::get('/kelas', [KelasController::class, 'index'])->name('kelas.index');
     Route::get('/kelas/create', [KelasController::class, 'create'])->name('kelas.create');
     Route::post('/kelas/store', [KelasController::class, 'store'])->name('kelas.store');
-    Route::get('/kelas/{id}', [KelasController::class, 'show'])->name('kelas.show');
-    Route::get('/kelas/{id}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
-    Route::put('/kelas/{id}', [KelasController::class, 'update'])->name('kelas.update');
-    Route::delete('/kelas/{id}', [KelasController::class, 'destroy'])->name('kelas.destroy');
+    Route::get('/kelas/{nama}', [KelasController::class, 'show'])->name('kelas.show');
+    Route::get('/kelas/{nama}/edit', [KelasController::class, 'edit'])->name('kelas.edit');
+    Route::put('/kelas/{nama}', [KelasController::class, 'update'])->name('kelas.update');
+    Route::delete('/kelas/{nama}', [KelasController::class, 'destroy'])->name('kelas.destroy');
     //siswa
     Route::get('/siswa', [SiswaController::class, 'index'])->name('siswa.index');
     Route::get('/siswa/create', [SiswaController::class, 'create'])->name('siswa.create');

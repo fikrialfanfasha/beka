@@ -17,8 +17,8 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ $jur->nama }}</td>
                     <td>
-                        <a href="{{ route('jurusan.edit', $jur->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('jurusan.destroy', $jur->id) }}" method="POST" class="d-inline">
+                        <a href="{{ route('jurusan.edit', $jur->nama) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('jurusan.destroy', $jur->nama) }}" method="POST" class="d-inline">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger">Hapus</button>
@@ -31,4 +31,6 @@
                 </tr>
             @endforelse
         </tbody>
+    </table>
+</div>
 @endsection

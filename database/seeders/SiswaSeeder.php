@@ -12,13 +12,13 @@ class SiswaSeeder extends Seeder
     public function run()
     {
         $fakerIndonesia = Faker::create('id_ID');
-        $fakerRussia = Faker::create('pl_PL');
+        $fakerPolandia = Faker::create('pl_PL');
 
         $kelasIds = Kelas::pluck('id')->toArray();
 
         for ($i = 0; $i < 120; $i++) {
             $firstNameIndonesia = $fakerIndonesia->firstName;
-            $lastName = $fakerRussia->lastName();
+            $lastName = $fakerPolandia->lastName();
 
             $nama = $firstNameIndonesia . ' ' . $lastName;
 

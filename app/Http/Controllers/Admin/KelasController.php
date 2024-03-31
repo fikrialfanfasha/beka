@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Kelas;
 use App\Models\Jurusan;
+
 class KelasController extends Controller
 {
     /**
@@ -14,20 +15,20 @@ class KelasController extends Controller
     public function index(Request $request)
     {
         $query = Kelas::query();
-    
-        // Filter berdasarkan jurusan jika dipilih
+
+        //filter berdasarkan jurusan jika dipilih
         if ($request->has('jurusan')) {
-            $query->whereHas('jurusan', function ($query) use ($request) {
-                $query->where('id', $request->input('jurusan'));
-            });
+            $jurusanId = Jurusan::where('nama', $request->input('jurusan'))->value('id');
+            $query->where('jurusan_id', $jurusanId);
         }
-    
-        // Ambil semua kelas dan urutkan berdasarkan nama jurusan
+
+        //ambil semua kelas dan urutkan berdasarkan nama jurusan
         $kelas = $query->with('jurusan')->orderBy('jurusan_id')->get();
         $jurusan = Jurusan::all();
-    
+
         return view('admin.kelas.kelas_index', compact('kelas', 'jurusan'));
     }
+
 
     /**
      * Show the form for creating a new resource.
@@ -54,41 +55,43 @@ class KelasController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $nama)
     {
-        $kelas = Kelas::findOrFail($id);
+        $kelas = Kelas::where('nama', $nama)->firstOrFail();
         return view('admin.kelas.kelas_show', compact('kelas'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $nama)
     {
-        $kelas = Kelas::findOrFail($id);
+        $kelas = Kelas::where('nama', $nama)->firstOrFail();
         return view('admin.kelas.kelas_edit', compact('kelas'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $nama)
     {
         $request->validate([
             'nama' => 'required',
             'jurusan_id' => 'required',
         ]);
-        $kelas = Kelas::findOrFail($id);
+
+        $kelas = Kelas::where('nama', $nama)->firstOrFail();
         $kelas->update($request->all());
+
         return redirect()->route('kelas.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $nama)
     {
-        $kelas = Kelas::findOrFail($id);
+        $kelas = Kelas::where('nama', $nama)->firstOrFail();
         $kelas->delete();
         return redirect()->route('kelas.index');
     }
